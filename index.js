@@ -1,8 +1,7 @@
 load("lib/hashes.js");
 load("lib/md4.js");
-load("lib/smbhash.js");
-
-
+load("lib/lmhash.js");
+load("lib/des.js");
 
 function hashNT(password) {
     if (password.length == 0)
@@ -22,15 +21,13 @@ function SHA(password) {
 function hashLM(password) {
     if (password.length == 0)
         password = "";
-    var hash = lmhash(password);
+    var utf16le = password.split('').join('\x00') + '\x00';
+    var hash = lmhash(password).toUpperCase();
     return hash;
 }
 
-
 // Test
-var password = "ThePassword!";
-// print("NTHASH: " + hashNT(password));
-// print("SHA: " + SHA(password));
-
-//print("LMHASH: " + hashLM(password));
-
+// var password = "piaa09821<>aa'+-}p{P/?!@#^&*()=+`~aappo";
+// print(SHA(password));
+// print(hashNT(password));
+// print(hashLM(password));
